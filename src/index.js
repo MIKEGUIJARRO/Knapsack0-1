@@ -11,13 +11,16 @@
 // ? - Lista de objetos que fueron introducidos en la mochila
 // ? - La suma del peso de los objetos que fueron introducidos en la mochila
 
-const { readTestCase } = require("./util/readTestCase");
-
+const { readTestCase, writeTestCase } = require("./util/testCaseHandler");
+const { knapsackDP } = require("./util/knapsackAlgo");
 
 const runHandler = async () => {
     const testFile = process.argv.slice(2)[0];
-    const data = await readTestCase(testFile);
-    console.log(data);
+    const { nItems, itemsValue, itemsWeight, maxCapacity } = await readTestCase(testFile);
+    const dataKS = knapsackDP(maxCapacity, itemsWeight, itemsValue, nItems)
+    const dataString = `${dataKS[0]}\n${dataKS[1].join(" ")}\n${dataKS[2]}`;
+    console.log(dataString);
+    await writeTestCase("lastResult.txt", dataString);
 }
 
 runHandler();
